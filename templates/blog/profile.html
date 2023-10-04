@@ -1,0 +1,119 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="page-header">Profile</h1>
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'profile' %}" method="post" id="ProfileForm">
+                        {% csrf_token %}
+
+                        <!-- First Name Field -->
+                        <div class="form-group">
+                            <label for="first_name"> Ім'я </label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{user.first_name}}">
+                        </div>
+                        <!-- Last Name Field -->
+                        <div class="form-group">
+                            <label for="last_name"> Прізвище </label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{user.last_name}}">
+                        </div>
+                        <!-- Email Field -->
+
+                        <div class="form-group">
+                            <label for="email"> Email </label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{user.email}}">
+                        </div>
+
+                        <!-- Date of Birth Field -->
+                        <div class="form-group">
+                            <label for="date_of_birth">Дата народження</label>
+                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ user_profile.date_of_birth }}">
+                        </div>
+
+                        <!-- Country Field -->
+                        <div class="form-group">
+                            <label for="country">Країна</label>
+                            <input type="text" class="form-control" id="country" name="country" value="{{ user_profile.country }}">
+                        </div>
+
+                        <!-- Group Field -->
+                        <div class="form-group">
+                            <label for="group">Група</label>
+                            <input type="text" class="form-control" id="group" name="group" value="{{ user_profile.group }}">
+                        </div>
+
+                        <!-- Avatar Field -->
+                         <div class="form-group">
+                            <label for="use_existing_photo">Обрати фото</label>
+                            <input type="checkbox" class="form-check-input" id="use_existing_photo" name="use_existing_photo">
+                        </div>
+                        <div class="form-group" id="existing_photo_group" >
+<!--                            <label for="existing_photo">Select an Existing Photo</label>-->
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                {% for photo in existing_photos %}
+                                <option value="{{ photo.id }}">{{ photo.description }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                        <div class="form-group" id="new_photo_group" style="display: none;">
+                            <label for="new_photo">Upload a New Photo</label>
+                            <input type="file" class="form-control" id="new_photo" name="new_photo">
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success" >Оновити дані</button>
+                    </form>
+
+                    <form action="{% url 'profile' %}" method="post" id="PasswordForm">
+                        {% csrf_token %}
+
+                        <!-- Current Password Field -->
+                        <div class="form-group">
+                            <label for="current_password">Пароль</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password" required>
+                            <button type="button" id="showPassword">Показати пароль</button>
+                        </div>
+
+                        <script>
+                            document.getElementById("showPassword").addEventListener("click", function () {
+                                var passwordInput = document.getElementById("current_password");
+                                if (passwordInput.type === "password") {
+                                    passwordInput.type = "text";
+                               } else {
+                                    passwordInput.type = "password";
+                                }
+                            });
+                        </script>
+
+                        <!-- New Password Field -->
+                        <div class="form-group">
+                            <label for="new_password1">Новий пароль</label>
+                            <input type="password" class="form-control" id="new_password1" name="new_password1" required>
+                        </div>
+
+                        <!-- Confirm New Password Field -->
+                        <div class="form-group">
+                            <label for="new_password2">Повторіть новий пароль</label>
+                            <input type="password" class="form-control" id="new_password2" name="new_password2" required>
+                        </div>
+
+                    <button type="submit" class="btn btn-success">Оновити пароль</button>
+
+                    </form>
+                    <hr>
+
+                    <a href="{% url 'my_posts' %}" type="button" class="btn btn-success">Mої пости</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
